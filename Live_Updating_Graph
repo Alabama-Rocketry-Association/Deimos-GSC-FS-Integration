@@ -1,0 +1,43 @@
+# Code written for ARA (Alabama Rocketry Association), a rocketry club at The University of Alabama.
+# Written by Joshua Vondracek, sophomore.
+# Purpose of code is to create a live-updating graph to track altitude over time of a rocket launch.
+# Continually reads data from text file "Test.txt"
+#
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib import style
+
+# A graphing style
+style.use('fivethirtyeight')
+
+# Initializes the graph
+fig = plt.figure()
+ax1 = fig.add_subplot(1,1,1)
+
+# The main function that creates the animation
+def animate(i):
+# Opens text file
+    graph_data = open('Test.txt','r').read()
+    lines = graph_data.split('\n')
+# Empty lists to contain data points
+    xs = []
+    ys = []
+# Enters data points into lists, x and y split by commas in text file
+    for line in lines:
+        if len(line) > 1:
+            x, y = line.split(',')
+            xs.append(float(x))
+            ys.append(float(y))
+    ax1.clear()
+# line.set_ydata(xs)
+    ax1.plot(xs, ys)
+# x-axis label
+    plt.xlabel(' Time (seconds)')
+# y-axis label
+    plt.ylabel('Altitude (m)')
+# plot title
+    plt.title('Rocket Altitude with Time')
+
+# Controls how often the graph updates/checks for new data(milliseconds)
+ani = animation.FuncAnimation(fig, animate, interval=100)
+plt.show()
